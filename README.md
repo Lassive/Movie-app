@@ -1,6 +1,6 @@
 # Movielist
 
-**Movielist** is an app designed for managing your personalized movie watchlists. It's crafted with React Native and harnesses the power of the IMDB8 API.
+**Movielist** is an app designed for managing your personalized movie watchlists. It's made with React Native and uses IMDB8 API.
 
 ## Technologies Used
 
