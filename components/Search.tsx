@@ -47,7 +47,16 @@ const Search = () => {
           imageUrl: movie.i && movie.i.imageUrl ? movie.i.imageUrl : null,
         };
         await push(ref(database, `users/${currentUser.uid}/movies`), movieToAdd);
-        console.log('Movie added successfully!');
+        setMovieData(prevData => {
+          const updatedData = { ...prevData };
+          updatedData.d = updatedData.d.map((m, index) => {
+            if (m === movie) {
+              m.successMessage = 'Movie added successfully!';
+            }
+            return m;
+          });
+          return updatedData;
+        });
       } else {
         console.log('No user logged in');
       }
@@ -90,6 +99,7 @@ const Search = () => {
               <TouchableOpacity style={searchstyles.addButton} onPress={() => handleAddMovie(movie)}>
                 <Text style={searchstyles.addButtonText}>Add to your list!</Text>
               </TouchableOpacity>
+              {movie.successMessage && <Text>{movie.successMessage}</Text>}
             </View>
           ))}
         </View>
@@ -97,7 +107,5 @@ const Search = () => {
     </ScrollView>
   );
 };
-
-
 
 export default Search;

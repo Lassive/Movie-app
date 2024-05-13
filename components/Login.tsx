@@ -6,6 +6,7 @@ import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
 
   const signIn = () => {
     signInWithEmailAndPassword(auth as Auth, email, password)
@@ -14,6 +15,7 @@ const SignIn: React.FC = () => {
       })
       .catch((error) => {
         console.log(error);
+        setError(error.message); // Update error state to display in the app
       });
   };
 
@@ -34,6 +36,7 @@ const SignIn: React.FC = () => {
         secureTextEntry={true}
       />
       <Button onPress={signIn} title="Log In" />
+      {error ? <Text style={styles.error}>{error}</Text> : null}
     </View>
   );
 };
@@ -57,6 +60,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
+  },
+  error: {
+    color: "red",
+    marginTop: 10,
   },
 });
 
