@@ -4,11 +4,10 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 const SignUp = ({ onSignUp }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(''); // Add state for name
-  const [bio, setBio] = useState(''); // Add state for bio
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
 
   const handleSignUp = () => {
-    // Call the onSignUp function passed from the parent component
     onSignUp(email, password, { name, bio });
   };
 

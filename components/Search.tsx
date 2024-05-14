@@ -10,6 +10,7 @@ const Search = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  //käsittelee elokuvien haun imdb api:sta
   const handleSearch = async () => {
     setIsLoading(true);
     const url = `https://imdb8.p.rapidapi.com/auto-complete?q=${encodeURIComponent(searchText)}`;
@@ -28,7 +29,7 @@ const Search = () => {
         setMovieData(result);
         setError(null);
       } else {
-        throw new Error('Network response was not ok.');
+        throw new Error('Network error');
       }
     } catch (error) {
       setError(error.message);
@@ -37,15 +38,18 @@ const Search = () => {
       setIsLoading(false);
     }
   };
-
+  
+  //käsittelee elokuvan lisäämisen kirjautuneen käyttäjän watchlistiin
   const handleAddMovie = async (movie) => {
     try {
       const currentUser = auth.currentUser;
       if (currentUser) {
+        //tiedot, jotka elokuvasta lisätään
         const movieToAdd = {
           title: movie.l,
           imageUrl: movie.i && movie.i.imageUrl ? movie.i.imageUrl : null,
         };
+        //päivittää elokuvadatan tietokantaan
         await push(ref(database, `users/${currentUser.uid}/movies`), movieToAdd);
         setMovieData(prevData => {
           const updatedData = { ...prevData };
@@ -83,7 +87,7 @@ const Search = () => {
       {error && <Text style={searchstyles.error}>{error}</Text>}
       
       {movieData && (
-        <View style={searchstyles.movieContainer}>
+        <View style={searchstyles.movieContainer}> 
           <Text style={searchstyles.title}>Results for: {searchText}</Text>
           {movieData.d.map((movie, index) => (
             <View key={index} style={searchstyles.movieItemContainer}>

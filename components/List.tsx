@@ -10,6 +10,8 @@ const List = () => {
   const [comments, setComments] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
 
+  
+  //näyttää kirjautuneen käyttäjän katselulistan hakemalla sen databasesta käyttäjäkohtaisesti
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -26,25 +28,24 @@ const List = () => {
           }
         });
       } else {
-        setLoggedIn(false); // Reset movie data when user logs out
+        setLoggedIn(false); //resetoi elokuvadatan kun käyttäjä kirjautuu ulos
         setUserMovieData(null);
       }
     });
-
-    return () => unsubscribe(); // Cleanup function to unsubscribe from auth state changes
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
     if (userMovieData) {
       const initialRatings = {};
       Object.keys(userMovieData).forEach(movieId => {
-        initialRatings[movieId] = 0; // Set default rating to 0 for each movie
+        initialRatings[movieId] = 0; //asettaa elokuvan arvostelun 0:ksi defaulttina
       });
       setRatings(initialRatings);
     }
   }, [userMovieData]);
 
-  // Function to delete a movie
+  //elokuvien poiston käsittely
   const deleteMovie = (movieId) => {
     const userId = auth.currentUser.uid;
     const db = getDatabase();
@@ -64,7 +65,7 @@ const List = () => {
       });
   };
 
-  // Function to handle rating submission
+  //arvosteluiden lisäyksen käsittely
   const submitRating = (movieId, rating, comment) => {
     const userId = auth.currentUser.uid;
     const db = getDatabase();
@@ -82,12 +83,12 @@ const List = () => {
     });
   };
 
-  // Function to handle rating change
+  //arvostelun muutosten käsittely
   const handleRatingChange = (movieId, rating) => {
     setRatings({ ...ratings, [movieId]: rating });
   };
 
-  // Function to handle comment change
+  //kommentin muutoksen käsittely
   const handleCommentChange = (movieId, comment) => {
     setComments({ ...comments, [movieId]: comment });
   };

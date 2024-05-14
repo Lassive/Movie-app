@@ -14,10 +14,10 @@ const Home = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
     });
-
     return unsubscribe;
   }, []);
 
+  //rekisteröinnin käsittely
   const handleSignUp = async (email, password, userData) => {
     try {
       await signUp(email, password, userData);
@@ -29,6 +29,7 @@ const Home = () => {
     } 
   };
   
+  //uloskirjautumisen käsittely
   const handleLogout = () => {
     auth.signOut()
       .then(() => {

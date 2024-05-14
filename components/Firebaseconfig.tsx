@@ -26,14 +26,14 @@
   const auth = getAuth(app);
   const getUserProfile = async (userId) => {
     try {
-      // Reference to the user node in the database
       const userRef = ref(database, `users/${userId}`);
   
-      // Fetch user profile data
+      //hakee käyttäjän profiilin tiedot
       const snapshot = await get(userRef);
       if (snapshot.exists()) {
-        // If user data exists, return it
+        //jos löytyy niin palauttaa
         return snapshot.val();
+        //muuten antaa errorin devaajalle
       } else {
         console.log('No profile data found for user');
         return null;
@@ -57,11 +57,11 @@
 
   const signUp = async (email, password, userData) => {
     try {
-      // Create user with email and password
+      //käyttäjätunnuksen luonti sähköpostilla ja salasanalla
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const userId = userCredential.user.uid;
   
-      // Save user profile data to Realtime Database
+      //profiilin tallentaminen relatime databaseen
       await saveUserProfile(userId, userData);
     } catch (error) {
       console.log('Error signing up user:', error);
